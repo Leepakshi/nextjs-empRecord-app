@@ -46,12 +46,12 @@ export default function Header() {
         >
           Employees
         </Link>
-        <Link
+        {/* <Link
           href="/profile"
           style={{ color: "white", textDecoration: "none" }}
         >
           Profile
-        </Link>
+        </Link> */}
       </nav>
 
       {/* Right: User Info and Logout */}
