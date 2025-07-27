@@ -1,32 +1,19 @@
-"use client";
-
 import Header from "../components/Header";
-import { useEffect, useState } from "react";
-import { getUsers } from "@/lib/userService";
+import { getUsers } from "@/services/userService";
 import Loader from "../components/Loader";
 import Link from "next/link";
 
 const DEFAULT_IMAGE = "https://avatars.githubusercontent.com/u/583231?v=4"; // GitHub Octocat avatar
 
-export default function DashboardPage() {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+export const generateMetadata = () => {
+  return {
+    title: "Employee Directory | MyCompany",
+    description: "Browse and manage employees at MyCompany.",
+  };
+};
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const data = await getUsers();
-        setUsers(data);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) return <Loader />;
+export default async function EmployeePage() {
+  const users = await getUsers();
 
   return (
     <div className="p-6">
@@ -38,7 +25,6 @@ export default function DashboardPage() {
               <img
                 src={u.image || DEFAULT_IMAGE}
                 alt={u.name || "Unknown"}
-                onError={(e) => (e.currentTarget.src = DEFAULT_IMAGE)}
                 className="w-24 h-24 rounded-full object-cover mb-4"
               />
               <p className="text-lg font-semibold">

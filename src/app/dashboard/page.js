@@ -2,14 +2,16 @@
 
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
-import { getUsers } from "@/lib/userService";
+import { getUsers } from "@/services/userService";
 import Loader from "../components/Loader";
+import { useRouter } from "next/navigation";
 
 export default function DashboardPage() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,8 +28,7 @@ export default function DashboardPage() {
   }, []);
 
   const handleRowClick = (user) => {
-    alert(`Clicked on ${user.name}`);
-    // You can redirect using router.push(`/user/${user.id}`) if needed
+    router.push(`/employees/${user.id}`);
   };
 
   const handleSort = () => {

@@ -17,7 +17,8 @@ export default function LoginPage() {
     e.preventDefault();
 
     const result = await signIn("credentials", {
-      redirect: false,
+      redirect: true, // important!
+      callbackUrl: "/dashboard",
       email,
       password,
     });
@@ -81,6 +82,12 @@ export default function LoginPage() {
         >
           Sign in with Google
         </button>
+        {/* <button
+          onClick={() => signIn("github", { callbackUrl: "/" })}
+          className="flex items-center justify-center gap-2 w-full py-2 px-4 rounded bg-black text-white hover:bg-gray-800 transition"
+        >
+          Continue with GitHub
+        </button> */}
       </div>
     </div>
   );

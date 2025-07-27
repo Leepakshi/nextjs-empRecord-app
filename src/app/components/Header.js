@@ -1,11 +1,13 @@
 "use client";
 
-import { signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { data: session } = useSession();
+  const username = session?.user?.name || "Guest";
 
   return (
     <header
@@ -18,19 +20,26 @@ export default function Header() {
         alignItems: "center",
       }}
     >
-      {/* Logo */}
+      {/* Left: Logo */}
       <Link href="/" style={{ textDecoration: "none", color: "white" }}>
         <h2 style={{ margin: 0 }}>My App</h2>
       </Link>
 
-      {/* Menu */}
+      {/* Center: Navigation */}
       <nav
         style={{
           display: "flex",
-          alignItems: "center",
-          gap: "16px",
+          gap: "24px",
+          justifyContent: "center",
+          flex: 1,
         }}
       >
+        <Link
+          href="/dashboard"
+          style={{ color: "white", textDecoration: "none" }}
+        >
+          Dashboard
+        </Link>
         <Link
           href="/employees"
           style={{ color: "white", textDecoration: "none" }}
@@ -43,6 +52,11 @@ export default function Header() {
         >
           Profile
         </Link>
+      </nav>
+
+      {/* Right: User Info and Logout */}
+      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+        <span>{username}</span>
         <button
           onClick={() => signOut({ callbackUrl: "/login" })}
           style={{
@@ -50,13 +64,13 @@ export default function Header() {
             color: "white",
             border: "none",
             borderRadius: "4px",
-            padding: "8px 16px",
+            padding: "6px 12px",
             cursor: "pointer",
           }}
         >
           Logout
         </button>
-      </nav>
+      </div>
     </header>
   );
 }

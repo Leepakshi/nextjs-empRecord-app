@@ -5,6 +5,7 @@ import Loader from "./components/Loader";
 import Header from "./components/Header";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
+import Providers from "./providers";
 
 export const metadata = {
   title: "Employee Record",
@@ -13,12 +14,15 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const session = await getServerSession(authOptions);
+  console.log("session", session);
   return (
     <html lang="en">
       <body className="min-h-screen m-0 p-0">
         <Toaster position="top-right" />
-        {session && <Header />}
-        <Suspense fallback={<Loader />}>{children}</Suspense>
+        <Providers>
+          {session && <Header />}
+          <Suspense fallback={<Loader />}>{children}</Suspense>
+        </Providers>
       </body>
     </html>
   );
